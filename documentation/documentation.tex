@@ -54,19 +54,23 @@ Jako zadání semestrální práce pro předmět MBKZ byla vybrána hra \textbf{
 
 \section{Programátorská dokumentace}
 %TODO
-V~programu bylo použito pro docílení správné funkcionality 7 tříd, z~toho jedna abstraktní.
+V~programu bylo použito pro docílení správné funkcionality 7 tříd.
+\par
+Třída \textbf{MainActivity} slouží jako hlavní třída aplikace. V~této třídě se děje zobrazování již vytvořených struktur jako jsou například vytváření tlačítek, hracího pole, přiřazování aktivit tlačítkům.
+\par
+Třída \textbf{PlayerEngine} slouží pro zjištění tahu pro počítač. Pro zjištění tohoto tahu byl implementován algoritmus \textbf{Depth-First Search} algoritmus, který je ale omezen na maximální hloubku 4.
+\par
+Třída \textbf{Constants} obsahuje veškeré konstanty použité v aplikaci.
+\par
+Třída \textbf{Node} slouží jako jednoduchá reprezentace tlačítek při zjišťování tahu pro počítač.
+\par
+Třída \textbf{CustomButton} je rozšířením základního tlačítka v android studiu. Obsahuje dodatečné informace při práci s hledáním v poli - souřadnice X a Y a také který hráč označil dané tlačítko.
 \par
 Třída \textbf{MainActivity} slouží jako hlavní třída aplikace. V~této třídě se děje zobrazování již vytvořených struktur, jako jsou například časovač, hrací panel ale také i přiřazování aktivit pro tlačítka RESET a SET FLAG.
 \par
-Třída \textbf{GameEngine} obsahuje funkční kód hrací plochy a tlačítek samotných. Při kliknutí na jednotlivé tlačítko je zavolána metoda \textit{click}, která má za úkol zjistit mód ve kterém se uživatel nachází (zda odhaluje bomby nebo dává vlajky) a následně podle toho udělat určitou aktivitu. Zároveň se po každém kliknutí kontroluje, zda není hra dohrána pomocí metody \textit{checkEnd}, ale i zda uživatel nezvolil tlačítko, které obsahuje bombu.
+Třída \textbf{EGameStatus} je enum, která reprezentuje aktuální stav hry.
 \par
-Třída \textbf{Generator} má za úkol vytvořit celou hrací plochu a všech tlačítek. Nejdříve jsou vytvořena políčka bez jakéhokoliv označení, pouze jsou náhodně vygenerovány pozice políček, na kterých bude vložena bomba. Po vygenerování všech políček probíhá vypočítání čísla políčka, které značí počet bomb, které se vyskytují v~blízkosti aktuálně zpracovávaného políčka.
-\par
-Abstraktní třída \textbf{BaseCell} má za úkol připravit strukturu pro políčko, které bude vloženo do hracího pole. Obsahuje proměnné udávají zda je políčko bomba, jestli je označené vlajkou, zda je odhaledno a hodnotu udávající počet sousedních bomb doplněno o~pozici v~hracím poli.
-\par
-Třída \textbf{Cell} rozšiřuje námi vytvořenou abstraktní třídu BaseCell. Hlavním úkolem této třídy je přiřadit na základě stanovených hodnot (ve třídě BaseCell), jaký obrázek bude použit při vykreslení (při neodhalení, po odhalení zda se jedná o~bombu nebo pouze obsahuje číslo udávající počet sousedních bomb).
-\par
-Třída \textbf{Grid} zařizuje vytvoření veškerých struktur, které jsou dále poslány třídě MainActivity. Pro splnění tohoto účelu byla vytvořena private třída \textbf{GridAdapter}, která slouží jako most mezi námi vytvořenými daty a jejich vyobrazením.
+Třída \textbf{MoveChecker} slouží k zjištění, zda aktuální tah vedl k výhře hráče. 
 \newpage
 
 
@@ -95,7 +99,7 @@ Jakmile uživatel klikne na jakékoliv pole na hrací ploše, označí se toto p
 	\caption{Tah počítače}
 	\label{fig:move}
 	\end{figure}
-\par
+\newpage
 Hra končí, pokud jeden z hráčů poskládá vítěznou kombinaci (o velikosti 5) a nebo všechny políčka budou zabraná, aniž bude existovat vítězná řada, tudíž vznikne remíza. Po dohrání hry jsou aktualizovány statistiky a uživatel může začít novou hru zvolením nové velikosti hracího pole. Příklad dohrání hry do úplného konce lze vidět na obrázku \ref{fig:endgame}.
 	\begin{figure}[h!]
 	\centering
