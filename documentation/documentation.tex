@@ -1,0 +1,124 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage[IL2]{fontenc}
+\usepackage[czech]{babel}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage[pdfborder={0 0 0}]{hyperref}
+
+\title{\textbf{Dokumentace semestrální práce} \\KIV/MBKZ}
+\author{Vojtěch Danišík}
+\begin{document}
+
+\begin{titlepage} 
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
+	\begin{center}
+	\includegraphics[width=6cm]{img/logo}\\
+	\end{center}
+	\textsc{\LARGE Západočeská univerzita v~Plzni}\\[1.5cm] 	
+	\textsc{\Large Mobilní komunikace a zařízení}\\[0.5cm] 
+	\textsc{\large KIV/MBKZ}\\[0.5cm] 
+	\HRule\\[0.4cm]
+	{\huge\bfseries Dokumentace semestrální práce}\\[0.4cm] 
+	\HRule\\[1.5cm]
+
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft}
+			\large
+			Vojtěch \textsc{Danišík}\newline
+			A19N0028P\newline
+			danisik@students.zcu.cz
+		\end{flushleft}
+	\end{minipage}
+	\vfill\vfill\vfill
+	\begin{flushright}
+	{\large\today}
+	\end{flushright}
+	\vfill 
+\end{titlepage}
+\newpage
+\tableofcontents
+\newpage
+\section{Zadání}
+Jako zadání semestrální práce pro předmět MBKZ byla vybrána hra \textbf{Piškvorky - TicTacToe}. Hlavní podstatou piškvorek je sestavit řadu o velikosti 5 po sobě jdoucích značek. Značky můžou být v diagonálních směrech, zleva doprava a odshora dolů. Hra se hraje ve dvou, kdy první hráč má značku \textbf{X} a druhý hráč má značku \textbf{O}. Za hráče se může považovat člověk i počítač. Hráči se snaží dosáhnout vítězné řady ale zároveň zabránit seskládání vítězné řady u protihráče. Vzhled této hry lze vidět na obrázku \ref{fig:uvod_obrazek}.
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=5cm]{img/highlighted}\\
+	\caption{Piškvorky - ukázka}
+	\label{fig:uvod_obrazek}
+	\end{figure}
+\newpage
+
+
+\section{Programátorská dokumentace}
+%TODO
+V~programu bylo použito pro docílení správné funkcionality 7 tříd, z~toho jedna abstraktní.
+\par
+Třída \textbf{MainActivity} slouží jako hlavní třída aplikace. V~této třídě se děje zobrazování již vytvořených struktur, jako jsou například časovač, hrací panel ale také i přiřazování aktivit pro tlačítka RESET a SET FLAG.
+\par
+Třída \textbf{GameEngine} obsahuje funkční kód hrací plochy a tlačítek samotných. Při kliknutí na jednotlivé tlačítko je zavolána metoda \textit{click}, která má za úkol zjistit mód ve kterém se uživatel nachází (zda odhaluje bomby nebo dává vlajky) a následně podle toho udělat určitou aktivitu. Zároveň se po každém kliknutí kontroluje, zda není hra dohrána pomocí metody \textit{checkEnd}, ale i zda uživatel nezvolil tlačítko, které obsahuje bombu.
+\par
+Třída \textbf{Generator} má za úkol vytvořit celou hrací plochu a všech tlačítek. Nejdříve jsou vytvořena políčka bez jakéhokoliv označení, pouze jsou náhodně vygenerovány pozice políček, na kterých bude vložena bomba. Po vygenerování všech políček probíhá vypočítání čísla políčka, které značí počet bomb, které se vyskytují v~blízkosti aktuálně zpracovávaného políčka.
+\par
+Abstraktní třída \textbf{BaseCell} má za úkol připravit strukturu pro políčko, které bude vloženo do hracího pole. Obsahuje proměnné udávají zda je políčko bomba, jestli je označené vlajkou, zda je odhaledno a hodnotu udávající počet sousedních bomb doplněno o~pozici v~hracím poli.
+\par
+Třída \textbf{Cell} rozšiřuje námi vytvořenou abstraktní třídu BaseCell. Hlavním úkolem této třídy je přiřadit na základě stanovených hodnot (ve třídě BaseCell), jaký obrázek bude použit při vykreslení (při neodhalení, po odhalení zda se jedná o~bombu nebo pouze obsahuje číslo udávající počet sousedních bomb).
+\par
+Třída \textbf{Grid} zařizuje vytvoření veškerých struktur, které jsou dále poslány třídě MainActivity. Pro splnění tohoto účelu byla vytvořena private třída \textbf{GridAdapter}, která slouží jako most mezi námi vytvořenými daty a jejich vyobrazením.
+\newpage
+
+
+\section{Uživatelská dokumentace}
+Výsledný vzhled aplikace lze vidět na několika obrázcích. První obrázek (viz \ref{fig:title}) vyobrazuje aplikaci po jejím spuštění, kdy si hráč vybírá velikost mapy z tří zvolených možností (5x5, 6x6, 7x7). Aplikace navíc obsahuje počítadla výher/remíz/proher prvního hráče (Vás).
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=5cm]{img/title}\\
+	\caption{Vybrání velikosti hracího pole}
+	\label{fig:title}
+	\end{figure}
+\par
+Po výběru velikosti mapy aplikace vygeneruje hrací pole o zvolené velikosti a čeká, než první hráč (vy) zahájí hru prvním tahem. Příklad vygenerované mapy 7x7 lze vidět na obrázku \ref{fig:board}.
+\newpage
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=5cm]{img/board}\\
+	\caption{Vygenerované hrací pole}
+	\label{fig:board}
+	\end{figure}
+\par
+Jakmile uživatel klikne na jakékoliv pole na hrací ploše, označí se toto pole značkou \textbf{X} a už na něj nelze kliknout. Po odehrání hráčovo tahu bude hrát počítač, který podle implementovaného algoritmu vybere nějaké políčko a to označí značkou \textbf{O} Políčko zvolené počítačem bude zároveň označené žlutou barvou, aby mohl první hráč zjistit, které políčko vybral počítač. Příklad vybraného políčka počítačem lze vidět na obrázku \ref{fig:move}.
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=5cm]{img/highlighted}\\
+	\caption{Tah počítače}
+	\label{fig:move}
+	\end{figure}
+\par
+Hra končí, pokud jeden z hráčů poskládá vítěznou kombinaci (o velikosti 5) a nebo všechny políčka budou zabraná, aniž bude existovat vítězná řada, tudíž vznikne remíza. Po dohrání hry jsou aktualizovány statistiky a uživatel může začít novou hru zvolením nové velikosti hracího pole. Příklad dohrání hry do úplného konce lze vidět na obrázku \ref{fig:endgame}.
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[width=5cm]{img/endgame}\\
+	\caption{Konec hry}
+	\label{fig:endgame}
+	\end{figure}
+\newpage
+
+
+\section{Řešené problémy}
+Při vyvíjení aplikace jsem narazil na jeden jediný problém, a to byla časová náročnost řešících algoritmů pro AI. Jako první jsem měl naimplementován algoritmus \textbf{Minimax} a jeho rozšíření \textbf{Alpha-beta prunning}, bohužel pro hrací pole větší jak 3x3 byla časová doba pro jeden tah AI velice dlouhá a nepodařilo se mi implementovat limitaci algoritmu podle hloubky zanoření. Následně jsem použil nejjednodušší řešení, a to algoritmus \textbf{Depth-First Search}. Pro tento algoritmus byla taktéž časová doba pro tah AI víceméně stejná jako u předchozích algoritmů ale s tím rozdílem, že se mi podařilo implementoval limitaci podle hloubky zanoření. Maximální zanoření DFS může být maximálně 4 a to z důvodu přijatelné hrací doby jednoho tahu AI pro hrací pole 7x7.
+\newpage
+
+
+\section{Testování}
+Aplikace byla vyvíjena a testována v~Android Studiu verze 3.5.3 (od firmy JetBrains) v~jazyce JAVA. Při vývoji bylo využito JRE verze 1.8.0\_202. Jako testovací mobil byl vybrán Pixel 2 s~API verzí 24 a operačním systémem Android ve verzi 7.0 (Nougat). 
+\newpage
+
+
+\section{Závěr}
+Vytvořená mobilní aplikace \textbf{TicTacToe}, neboli piškvorky, splňuje základní funkcionalitu stejnojmenné hry. Uživatel je schopný hru bezproblémově dohrát a ukončit ji v~jakémkoliv případě. Ovládání aplikace je velice jednoduché, stačí pouze klikat na políčka v~hracím poli a podle zobrazeného čísla u~některých políček odhadovat, na jakém políčku se můžou nacházet bomby. Bomby jsou rozmístěny náhodně, v~každé hře jsou na jiné pozici. 
+\par
+Při testování se nevyskytly žádné chyby, které by měli zásadní vliv na funkčnost aplikace. Testovány byly především všechny stavy, které se mohli u~této hry vyskytnout, jako například výhra/remíza/prohra nebo třeba kliknutí již vybraného políčka.
+
+\end{document}
