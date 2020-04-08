@@ -1,6 +1,7 @@
 package com.tictactoe;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     public int losesCount = 0;
 
     public Bundle bundle;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,30 @@ public class MainActivity extends AppCompatActivity {
         textViewWinsValue = (TextView) findViewById(R.id.textViewWinsValue);
         textViewDrawsValue = (TextView) findViewById(R.id.textViewDrawsValue);
         textViewLosesValue = (TextView) findViewById(R.id.textViewLosesValue);
+
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        int loadedWinsCount = sharedPreferences.getInt("WINS", -1);
+        int loadedDrawsCount = sharedPreferences.getInt("DRAWS", -1);
+        int loadedLosesCount = sharedPreferences.getInt("LOSES", -1);
+
+        if (loadedWinsCount != -1) {
+            winsCount = loadedWinsCount;
+        }
+
+        if (loadedDrawsCount != -1) {
+            drawsCount = loadedDrawsCount;
+        }
+
+        if (loadedLosesCount != -1) {
+            losesCount = loadedLosesCount;
+        }
+
+        textViewWinsValue.setText("" + winsCount);
+        textViewDrawsValue.setText("" + drawsCount);
+        textViewLosesValue.setText("" + losesCount);
     }
+
 
     @Override
     protected void onStart() {
@@ -94,10 +119,13 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        /*
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
+
+         */
 
         return super.onOptionsItemSelected(item);
     }
@@ -135,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
                     textViewDrawsValue.setText("" + drawsCount);
                     showPopupChooseMapSize("It's a DRAW!");
                     gameStatus = EGameStatus.DRAW;
+                    saveDrawsCount();
 
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     v.vibrate(400);
@@ -146,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
                     textViewWinsValue.setText("" + winsCount);
                     showPopupChooseMapSize("You WIN!");
                     gameStatus = EGameStatus.WIN;
+                    saveWinsCount();
 
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     v.vibrate(400);
@@ -166,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
                     if (status == EGameStatus.DRAW) {
                         drawsCount++;
                         textViewDrawsValue.setText("" + drawsCount);
+                        saveDrawsCount();
                         showPopupChooseMapSize("It's a DRAW!");
 
                         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -178,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
                         textViewLosesValue.setText("" + losesCount);
                         showPopupChooseMapSize("You LOSE!");
                         gameStatus = EGameStatus.LOSE;
+                        saveLosesCount();
 
                         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                         v.vibrate(400);
@@ -266,6 +298,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void deleteAllElements(LinearLayout buttonLayout ) {
         if(buttonLayout.getChildCount() > 0) buttonLayout.removeAllViews();
+    }
+
+    private void saveWinsCount() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt("WINS", winsCount);
+        editor.commit();
+    }
+
+    private void saveDrawsCount() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt("DRAWS", drawsCount);
+        editor.commit();
+    }
+
+    private void saveLosesCount() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt("LOSES", losesCount);
+        editor.commit();
     }
 
     private void showPopupChooseMapSize(String message)
