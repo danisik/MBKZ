@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutPopup"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#7d000000"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/layoutPopUpMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose a map size"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/button5x5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="170dp"
+            android:height="60dp"
+            android:text="5x5" />
+
+        <Button
+            android:id="@+id/button6x6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="170dp"
+            android:height="60dp"
+            android:text="6x6" />
+
+        <Button
+            android:id="@+id/button7x7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="170dp"
+            android:height="60dp"
+            android:text="7x7" />
+
+    </LinearLayout>
+
+</LinearLayout>
